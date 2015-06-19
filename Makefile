@@ -10,7 +10,7 @@
 ifeq ($(USER),jthaler)
 	SHELL = /bin/sh
 	PYTHIA8LOCATION = /Users/jthaler/hepsoft/pythia8209
-	FASTJET3LOCATION = /usr/local/bin/
+	FASTJET3LOCATION = /usr/local
 endif
 
 ifeq ($(USER),marcstudent)
