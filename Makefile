@@ -7,16 +7,22 @@
 #————————————————————————————————————————————————————————
 
 
-# PYTHIA configuration file.
-# Generated on Sat Jun 13 21:24:16 EDT 2015 with the user supplied options:
-
-# Install directory prefixes.
-ifneq ("$(wildcard ../lib/libpythia8.a)","")
-	PREFIX_BIN=.../bin
-	PREFIX_INCLUDE=.../include
-	PREFIX_LIB=.../lib
-	PREFIX_SHARE=.../share/Pythia8
+ifeq ($(USER),jthaler)
+	SHELL = /bin/sh
+	PYTHIA8LOCATION = /Users/jthaler/hepsoft/pythia8209
+	FASTJETLOCATION = /usr/local/bin/
 endif
+
+ifeq ($(USER),marcstudent)
+	SHELL = /bin/sh
+	PYTHIA8LOCATION = /Users/marcstudent/Desktop/pythia8209
+endif
+
+
+#Pythia Flags
+PREFIX_LIB     = -L$(PYTHIA8LOCATION)/lib
+PREFIX_INCLUDE = -I$(PYTHIA8LOCATION)/include
+
 
 # Compilation flags (see ./configure --help for further documentation).
 ENABLE_SHARED=false
@@ -33,12 +39,7 @@ FASTJET3_INCLUDE=/Users/marcstudent/Desktop/fastjet-3.1.2/build/include
 FASTJET3_LIB=/Users/marcstudent/Desktop/fastjet-3.1.2/build/lib
 
 
-# Shortcut to Pythia /lib and /include libraries
-ifneq ("$(wildcard /Users/marcstudent/Desktop/pythia8209/lib/libpythia8.a)","")
-  PREFIX_LIB=/Users/marcstudent/Desktop/pythia8209/lib
-  PREFIX_INCLUDE=/Users/marcstudent/Desktop/pythia8209/include
-endif
-CXX_COMMON:=-I$(PREFIX_INCLUDE) $(CXX_COMMON) -Wl,-rpath $(PREFIX_LIB) -ldl
+CXX_COMMON:= $(PREFIX_INCLUDE) $(CXX_COMMON) -Wl,-rpath $(PREFIX_LIB) -ldl -lpythia8
 
 all: p_main01
 
@@ -47,7 +48,7 @@ all: p_main01
 
 
 # My main program (no external dependency) 
-p_main% : p_main%.cc $(PREFIX_LIB)/libpythia8.a
+p_main01 : p_main01.cc
 	$(CXX) $^ -o $@ $(CXX_COMMON)
 
 
