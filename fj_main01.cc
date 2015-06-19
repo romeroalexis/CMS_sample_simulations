@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <fstream>
 #include <string>
+#include "fastjet/contrib/SoftDrop.hh"
 using namespace std;
 
 int main(){
@@ -28,6 +29,10 @@ int main(){
             
     // Create pseudojet
     vector<fastjet::PseudoJet> input_particles;
+                
+    // Create SoftDrop to be used later
+                
+                fastjet::contrib::SoftDrop sd_test(0.0,0.1);
     
     // Four-momentum components
     double px, py, pz, E;

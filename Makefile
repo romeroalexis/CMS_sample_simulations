@@ -10,18 +10,23 @@
 ifeq ($(USER),jthaler)
 	SHELL = /bin/sh
 	PYTHIA8LOCATION = /Users/jthaler/hepsoft/pythia8209
-	FASTJETLOCATION = /usr/local/bin/
+	FASTJET3LOCATION = /usr/local/bin/
 endif
 
 ifeq ($(USER),marcstudent)
 	SHELL = /bin/sh
 	PYTHIA8LOCATION = /Users/marcstudent/Desktop/pythia8209
+	FASTJET3LOCATION = /Users/marcstudent/Desktop/fastjet-3.1.2/build
 endif
 
 
 #Pythia Flags
-PREFIX_LIB     = -L$(PYTHIA8LOCATION)/lib
-PREFIX_INCLUDE = -I$(PYTHIA8LOCATION)/include
+PYTHIA_LIB     = -L$(PYTHIA8LOCATION)/lib
+PYTHIA_INCLUDE = -I$(PYTHIA8LOCATION)/include
+
+#Pythia Flags
+FASTJET_LIB     = -L$(FASTJET3LOCATION)/lib
+FASTJET_INCLUDE = -I$(FASTJET3LOCATION)/include
 
 
 # Compilation flags (see ./configure --help for further documentation).
@@ -39,17 +44,24 @@ FASTJET3_INCLUDE=/Users/marcstudent/Desktop/fastjet-3.1.2/build/include
 FASTJET3_LIB=/Users/marcstudent/Desktop/fastjet-3.1.2/build/lib
 
 
-CXX_COMMON:= $(PREFIX_INCLUDE) $(CXX_COMMON) -Wl,-rpath $(PREFIX_LIB) -ldl -lpythia8
+CXX_PYTHIA:= $(PYTHIA_INCLUDE) $(CXX_COMMON) -Wl,-rpath $(PYTHIA_LIB) -ldl -lpythia8
 
-all: p_main01
+CXX_FASTJET:= $(FASTJET_INCLUDE) $(CXX_COMMON) -Wl,-rpath $(FASTJET_LIB) -ldl -lfastjet -lm -lfastjettools -lRecursiveTools
+
+
+all: p_main01 fj_main01
 
 # Phony targets -> all clean
 .PHONY: all clean
 
 
 # My main program (no external dependency) 
-p_main01 : p_main01.cc
-	$(CXX) $^ -o $@ $(CXX_COMMON)
+p_main01 : Makefile p_main01.cc
+	$(CXX) $@.cc -o $@ $(CXX_PYTHIA)
+
+fj_main01 : Makefile fj_main01.cc
+	$(CXX) $@.cc -o $@ $(CXX_FASTJET)
+
 
 
 # Clean.
