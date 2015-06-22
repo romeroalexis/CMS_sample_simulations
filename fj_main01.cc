@@ -1,94 +1,71 @@
+//------------------------------------------------------------------------------
+// This program measures the number of jets produced in particle collisions??
+// Reads file "four_m.txt"
+// Prints the number of jets to the file "n_vs_pt.txt"
+// Alexis Romero
+// Date created: 06-15-2015
+// Last modified: 06-19-2015 9:34am
+//------------------------------------------------------------------------------
+
 
 #include "fastjet/ClusterSequence.hh"
 #include <iostream>
-#include <cstdio>
 #include <fstream>
 #include <string>
-#include "fastjet/contrib/SoftDrop.hh"
 using namespace std;
 
 int main(){
     
     // Open input file
-    ofstream myfile;
-    myfile.open("bb.txt");
+    //ofstream myfile;
+    //myfile.open("n_vs_pt.txt");
+    double px, py, pz, E;
+    int iEvent = 0;
+    
+    ifstream myreadfile ("four_m.dat");
     
     string line;
     
-    ifstream myreadfile ("four_m.txt");
-    
-    if (myreadfile.is_open()) {         //myreadfile bracket 1
-    
-        getline(myreadfile,line);
+    while (getline(myreadfile,line)){
         
-    int nEvent = 5;
+        istringstream linestream(line);
         
-        for (int iEvent = 0; iEvent < nEvent; ++iEvent){    // iEvent loop 2
-            
-            if (line != "END EVENT") {    // If line != Eveng statement 3
-            
-    // Create pseudojet
-    vector<fastjet::PseudoJet> input_particles;
-                
-    // Create SoftDrop to be used later
-                
-                fastjet::contrib::SoftDrop sd_test(0.0,0.1);
-    
-    // Four-momentum components
-    double px, py, pz, E;
-    
-    // Read four-momentum components from input file
-    while (myreadfile >> px >> py >> pz >> E) {
-        input_particles.push_back(fastjet::PseudoJet(px,py,pz,E));}
-    
-    // Jet radius
-    double R = 0.7;
-    
-    // Define jet
-    // Algorith used: antikt_algorithm
-    // Other possible algorithms: {kt_algorithm, cambridge_algorithm, ..}
-    fastjet::JetDefinition jet_def(fastjet::antikt_algorithm, R);
-    
-    // Jet cluster sequence
-    fastjet::ClusterSequence clust_seq(input_particles, jet_def);
-    
-    // Minimum transverse momentum
-    double ptmin = 5.0;
-    
-    // Sort jets by transverse momentum
-    vector<fastjet::PseudoJet> inclusive_jets = sorted_by_pt(clust_seq.inclusive_jets(ptmin));
-    
-    // Print jet description to screen: {index, rap, phi, pt}
-    cout << "Ran " << jet_def.description() << endl;
-    
-    //Label columns
-    printf("%5s %15s %15s %15s\n","jet #", "rapidity", "phi", "pt");
-    
-    // Jet loop
-    for (unsigned int i = 0; i < inclusive_jets.size(); i++){   // Begin jet loop
+        if (line.substr(0,4) == "#END") {break;}
         
-        // Print to screen description of each jet
-        printf("%5u %15.8f %15.8f %15.8f\n", i, inclusive_jets[i].rap(), inclusive_jets[i].phi(), inclusive_jets[i].perp());
+        if (line.substr(0,6) == "#EVENT") { iEvent +=1;}
         
-        // Print to "n_vs_pt.txt"
-        myfile << iEvent << "   " << inclusive_jets[i].perp() << endl;
-    }   // End jet loop
-                
-            } //if line != Event statement -3
-            
-            else {
-                break;
-            }
-            
-            
-            } // iEvent loop -2
-                
-        myreadfile.close();
+        linestream >> px >> py >> pz >> E;
         
-    } // If myreadfile open -1
+        // Create pseudojet
+        vector<fastjet::PseudoJet> input_particles;
+        
+        input_particles.push_back(fastjet::PseudoJet(px,py,pz,E));
+        
+        // Jet radius
+        double R = 0.9;
+        
+        // Define jet
+        // Algorith used: antikt_algorithm
+        // Other possible algorithms: {kt_algorithm, cambridge_algorithm, ..}
+        fastjet::JetDefinition jet_def(fastjet::antikt_algorithm, R);
+        
+        // Jet cluster sequence
+        fastjet::ClusterSequence clust_seq(input_particles, jet_def);
+        
+        // Minimum transverse momentum
+        double ptmin = 5.0;
+        
+        // Sort jets by transverse momentum
+        vector<fastjet::PseudoJet> inclusive_jets = sorted_by_pt(clust_seq.inclusive_jets(ptmin));
+        
+        for (unsigned int i = 0; i < inclusive_jets.size(); i++){
+            
+            //cout << i << "  " << inclusive_jets.size() << endl;
+            
+            // Print to screen description of each jet
+            printf("%5i %5u %15.8f %15.8f %15.8f\n", iEvent, i, inclusive_jets[i].rap(), inclusive_jets[i].phi(), inclusive_jets[i].perp());}
+    }
     
     return 0;
     
-    myfile.close();
-    
-}
+}// End main()
