@@ -18,11 +18,9 @@ using namespace fastjet;
 
 int main () {
     
-  //ofstream mywritefile1("A1_pythia20.dat");  // Output file //C1
-  //ofstream mywritefile1("A1_pythia40.dat");  // Output file //C1
-  //ofstream mywritefile1("A1_pythia90.dat");  // Output file //C1
-  ofstream mywritefile1("A1_pythia240.dat");  // Output file //C1
+  ofstream mywritefile1("z-0-50_pt-500_ptm-250_pythia240_symm.dat");  // Output file //C1
     
+  ofstream mywritefile2("z-0-50_pt-500_ptm-250_pythia240_symm_pt.dat");
     
   string line;
     
@@ -46,11 +44,8 @@ int main () {
     }
         
     double R = 0.6;  // Enter jet radius
-    //double ptmin = 25.0;  // C4
-    //double ptmin = 50.0;  // C4
-    //double ptmin = 100.0;  // C4
-    double ptmin = 50.0;  // C4
-  
+    double ptmin = 250.0;  // C4
+      
     // Define Jet:
     // Indicate algotithm and radius
     JetDefinition jet_def(fastjet::antikt_algorithm, R);
@@ -79,13 +74,11 @@ int main () {
         cout << " Mass drop(mu):            " << sd_jet.structure_of<contrib::SoftDrop>().mu() << endl;
         
       // Print jet with max transverse momentum to output file
-  
-      //if ((i == 0) && (sd_jet.perp()>50.)) {mywritefile1 << sd_jet.structure_of<contrib::SoftDrop>().symmetry() << endl;}
-      //if ((i == 0) && (sd_jet.perp()>100.)) {mywritefile1 << sd_jet.structure_of<contrib::SoftDrop>().symmetry() << endl;}
-      //if ((i == 0) && (sd_jet.perp()>200.)) {mywritefile1 << sd_jet.structure_of<contrib::SoftDrop>().symmetry() << endl;}
-      if ((i == 0) && (sd_jet.perp()>100.)) {mywritefile1 << sd_jet.structure_of<contrib::SoftDrop>().symmetry() << endl;}
-  
+        //C3
+      if ((i == 0) && (sd_jet.perp()>500.)) {mywritefile1 << sd_jet.structure_of<contrib::SoftDrop>().symmetry() << endl;}
         
+      if ((i == 0) && (sd_jet.perp()>500.)) {mywritefile2 << sd_jet.perp() << "    " << sd_jet.structure_of<contrib::SoftDrop>().symmetry() << endl;}
+            
     }  // End i-particle loop -> for (unsigned int i = 0; i < inclusive_jets.size(); i++)
         
   }   // End iEvent-loop -> for (int iEvent=0; iEvent < nEvent; iEvent++ )
