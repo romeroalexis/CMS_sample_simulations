@@ -19,7 +19,6 @@ int main() {
   pythia.readString("Beams:idB = 2212");            // Beam B -> Proton
   pythia.readString("Beams:eCM = 7000.");           // CM energy
   pythia.readString("HardQCD:all = on");            // Consider hard QCD processes
-  //pythia.readString("PhaseSpace:pTHatMin = 230.");   // Min transverse momentum?
 
     Settings& settings = pythia.settings;
   // Do not print to screen:
@@ -27,19 +26,12 @@ int main() {
   pythia.readString("Next:numberShowProcess = 0");
   pythia.readString("Next:numberShowEvent = 0");
     
-    ofstream myfile;
-    //myfile.open("pythia_bins_pt20.dat");  // Open output file for ptmin = 20
-    //myfile.open("pythia_bins_pt40.dat");  // Open output file for ptmin = 40
-    //myfile.open("pythia_bins_pt90.dat");  // Open output file for ptmin = 90
-    myfile.open("pythia_bins_pt240.dat");  // Open output file for ptmin = 240
+  ofstream myfile;
+  myfile.open("pythia_bins_pt20.dat");  // Open output file
     
+  double pTlimit[12] = {20., 118., 216., 314., 412., 510., 608., 804., 902., 1000., 0.};
     
-  //double pTlimit[9] = {20., 40., 70., 100., 150., 250., 500., 800., 0.};    // ptmin = 20
-  //double pTlimit[9] = {40., 60., 90., 150., 250., 400., 600., 800., 0.};    // ptmin = 40
-  //double pTlimit[9] = {90., 140., 190., 250., 350., 550., 700., 800., 0.};  // ptmin = 90
-  double pTlimit[9] = {240., 300., 360., 410., 500., 600., 700., 800., 0.};   // ptmin = 240
-    
-    int nBin = 10.;
+    int nBin = 11.;
   // Loop over number of bins
   for (int iBin = 0; iBin < nBin; ++iBin) {
       
