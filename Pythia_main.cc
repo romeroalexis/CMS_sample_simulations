@@ -73,7 +73,7 @@ int main() {
             for (int i = 0; i < pythias.at(iBin)->event.size(); i++) if (pythias.at(iBin)->event[i].isFinal()) {
                 
                 // Output bin no. and four-momentum
-                myfile_4m << setw(15) << iBin << setw(15) << iEvent << setw(15) << pythias.at(iBin) -> event[i].px()
+                myfile_4m << setw(15) << iBin << setw(15) << pythias.at(iBin) -> event[i].px()
                 << setw(15) << pythias.at(iBin) -> event[i].py() << setw(15) << pythias.at(iBin) -> event[i].pz()
                 << setw(15) << pythias.at(iBin) -> event[i].e() << endl;
             }
