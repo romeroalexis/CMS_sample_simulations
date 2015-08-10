@@ -1,12 +1,12 @@
 # CMS_sample_simulations
 
-##Pythia_main:__
-Run with: ./Pythia_main__
-Output Files: "Pythia_four_momentum.dat" and "Pythia_weight.dat"__
-Program Description: This program evaluates Pythia for 13 transverse momentum intervals.__
-The intervals are called bins.__
-The jet's four momentum is written to -> "Pythia_four_momentum.dat"__
-The bin's weight is written to -> "Pythia_weight.dat"__
+##Pythia_main:  
+Run with: ./Pythia_main  
+Output Files: "Pythia_four_momentum.dat" and "Pythia_weight.dat"  
+Program Description: This program evaluates Pythia for 13 transverse momentum intervals.  
+The intervals are called bins.  
+The jet's four momentum is written to -> "Pythia_four_momentum.dat"  
+The bin's weight is written to -> "Pythia_weight.dat"  
 
 ##Fastjet_main:__
 Run with: ./Fastjet_main ptmin zcut__
